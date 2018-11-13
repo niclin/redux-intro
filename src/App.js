@@ -1,35 +1,33 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import Counter from './Counter';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-function mapStateToProps(state) {
-  return {
-    count: state.count
-  };
+const initialState = {
+  count: 0
 }
 
-class App extends Component {
-  state = { count: 0 }
-
-  increment = () => {
-
-  }
-
-  decrement = () => {
-
-  }
-
-  render() {
-    return (
-      <div>
-        <h2>Counter</h2>
-        <div>
-          <button onClick={this.decrement}>-</button>
-          <span>{this.state.count}</span>
-          <button onClick={this.increment}>+</button>
-        </div>
-      </div>
-    )
+function reducer(state = initialState, action) {
+  switch(action.type) {
+    case 'INCREMENT':
+      return {
+        count: state.count + 1
+      }
+    case 'DECREMENT':
+      return {
+        count: state.count - 1
+      }
+    default:
+      return state
   }
 }
 
-export default connect(mapStateToProps)(App);
+const store = createStore(reducer);
+
+const App = () => (
+  <Provider store={store}>
+    <Counter/>
+  </Provider>
+);
+
+export default App
